@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "ionic-test-df5f8"
+  },
+  "targets": {
+    "ionic-test-df5f8": {
+      "hosting": {
+        "app": [
+          "ionic-test-df5f8"
+        ]
+      }
+    }
   }
 }
