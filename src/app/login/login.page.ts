@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 
 import { FormBuilder, FormGroup, Validators } from'@angular/forms'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +17,9 @@ export class LoginPage implements OnInit {
   })
 
   constructor( 
-    private fb:FormBuilder
+    private fb:FormBuilder,
+    private auth:AuthService,
+    private router: Router
    ) { }
 
   ngOnInit() {
@@ -26,11 +30,14 @@ export class LoginPage implements OnInit {
       this.form.markAllAsTouched()
       return;
     }
-
     const { email, password } = this.form.getRawValue()
-    console.log("🚀 ~ file: login.page.ts ~ line 31 ~ LoginPage ~ login ~ email, password", email, password)
-    console.log('value', this.form.value);
-    
+    this.auth.login(email, password)
+    .then(() => {
+      this.router.navigate(["/home"])
+    })
+    .catch(err => {
+      console.log("🚀 ~ file: login.page.ts ~ line 35 ~ LoginPage ~ login ~ err", err)
+    })
   }
 
 }

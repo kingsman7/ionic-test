@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +17,9 @@ export class RegisterPage implements OnInit {
   })
 
   constructor( 
-    private fb:FormBuilder
+    private fb:FormBuilder,
+    private auth: AuthService,
+    private router: Router
    ) { }
 
   ngOnInit() {
@@ -30,6 +34,14 @@ export class RegisterPage implements OnInit {
     const { email, password, passwordConfirm } = this.form.getRawValue()
     console.log("🚀 ~ file: login.page.ts ~ line 31 ~ LoginPage ~ login ~ email, password", email, password, passwordConfirm)
     console.log('value', this.form.value);
+
+    this.auth.register(email, password)
+    .then(() => {
+      this.router.navigate(["/home"])
+    })
+    .catch(err => {
+      console.log("🚀 ~ file: register.page.ts ~ line 41 ~ RegisterPage ~ register ~ err", err)
+    })
     
   }
 
